@@ -2,7 +2,7 @@
 # modules or a way that makes sense. But this greatly simplifies initial
 # machine setup.
 ---
-- hosts: workstation
+- hosts: all
   tasks:
     - name: Install cask
       command: brew tap phinze/homebrew-cask
@@ -27,4 +27,4 @@
       args:
         creates: ~/.docker/machine/machines/opsee-dev
     - name: Ensure opsee-dev is active
-      command: docker-machine activate opsee-dev
+      command: docker-machine active opsee-dev
