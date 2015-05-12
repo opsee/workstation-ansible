@@ -1,0 +1,30 @@
+# For now we have one monolithic playlist. Eventually, we break this up into
+# modules or a way that makes sense. But this greatly simplifies initial
+# machine setup.
+---
+- hosts: workstation
+  tasks:
+    - name: Install cask
+      command: brew tap phinze/homebrew-cask
+    - name: Install tools with Homebrew
+      homebrew: name={{ item }} state=latest
+      with_items:
+        - brew-cask
+        - git
+        - wget
+    - name: Install homebrew casks
+      homebrew_cask: name={{ item }} state=installed
+      with_items:
+        - java
+        - virtualbox
+        - boot2docker
+    - name: Setup docker-machine
+      command: curl -L https://github.com/docker/machine/releases/download/v0.2.0/docker-machine_darwin-amd64 /usr/local/bin/docker-machine
+      args:
+        creates: /usr/local/bin/docker-machine
+    - name: Spin up a dev env in docker-machine
+      command: docker-machine create --driver virtualbox opsee-dev
+      args:
+        creates: ~/.docker/machine/machines/opsee-dev
+    - name: Ensure opsee-dev is active
+      command: docker-machine activate opsee-dev
