@@ -19,12 +19,18 @@
         - virtualbox
         - boot2docker
     - name: Setup docker-machine
-      command: curl -L https://github.com/docker/machine/releases/download/v0.2.0/docker-machine_darwin-amd64 /usr/local/bin/docker-machine
-      args:
-        creates: /usr/local/bin/docker-machine
+      command: "{{ item }} creates=/usr/local/bin/docker-machine"
+      with_items:
+        - curl -L -O /usr/local/bin/docker-machine https://github.com/docker/machine/releases/download/v0.2.0/docker-machine_darwin-amd64
+        - chmod +x /usr/local/bin/docker-machine
     - name: Spin up a dev env in docker-machine
       command: docker-machine create --driver virtualbox opsee-dev
       args:
         creates: ~/.docker/machine/machines/opsee-dev
     - name: Ensure opsee-dev is active
       command: docker-machine active opsee-dev
+    - name: Install docker-compose
+      command: "{{ item }} creates=/usr/local/bin/docker-compose"
+      with_items:
+        - curl -L -O /usr/local/bin/docker-compose https://github.com/docker/compose/releases/download/1.2.0/docker-compose-`uname -s`-`uname -m`
+        - chmod +x /usr/local/bin/docker-compose
