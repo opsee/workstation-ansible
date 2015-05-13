@@ -25,7 +25,7 @@
     - name: Install docker-compose
       command: "{{ item }} creates=/usr/local/bin/docker-compose"
       with_items:
-        - curl -o /usr/local/bin/docker-compose -L https://github.com/docker/compose/releases/download/1.2.0/docker-compose_darwin-amd64
+        - curl -o /usr/local/bin/docker-compose -L https://github.com/docker/compose/releases/download/1.2.0/docker-compose-Darwin-x86_64
     - name: Make docker utilities executable
       file: path=/usr/local/bin/{{ item }} mode=0755
       with_items:
