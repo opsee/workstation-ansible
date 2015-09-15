@@ -8,8 +8,7 @@ if [[ $? != 0 ]] ; then
     echo "no brew installation found. installing brew..."
     ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
 else
-    echo "brew found. upadating..."
-    brew update
+    echo "brew found.  continuing..."
 fi
 
 # if you have permission errors
