@@ -5,11 +5,11 @@
 - hosts: all
   tasks:
     - name: Install cask
-      command: brew tap phinze/homebrew-cask
+      command: brew tap caskroom/homebrew-cask
     - name: Install tools with Homebrew
       homebrew: name={{ item }} state=latest
       with_items:
-        - brew-cask
+        - caskroom/cask/brew-cask
         - git
         - wget
     - name: Install homebrew casks
@@ -32,8 +32,10 @@
         - docker-machine
         - docker-compose
     - name: Spin up a dev env in docker-machine
-      command: docker-machine create --driver virtualbox opsee-dev
+      command: docker-machine create -d virtualbox opsee-dev
       args:
         creates: ~/.docker/machine/machines/opsee-dev
-    - name: Ensure opsee-dev is active
-      command: docker-machine active opsee-dev
+    - name: Start dev env 
+      command: docker-machine start opsee-dev
+    # Removed check for active machine
+    # See https://github.com/docker/machine/issues/1367
